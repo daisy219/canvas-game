@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="my_canvas" width="1000" height="1000"></canvas>
+
+    <script type="text/javascript">
+
+        // 获取像素比
+
+        let getPixelRatio = function (ctx) {
+
+            let backingStore = ctx.backingStorePixelRatio ||
+
+                ctx.webkitBackingStorePixelRatio ||
+
+                ctx.mozBackingStorePixelRatio ||
+
+                ctx.msBackingStorePixelRatio ||
+
+                ctx.oBackingStorePixelRatio ||
+
+                ctx.backingStorePixelRatio || 1;
+
+            return (window.devicePixelRatio || 1) / backingStore;
+
+        };
+
+        let fillArr = [
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        let fillArr2 = [
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+        let myCanvas = document.getElementById("my_canvas");
+
+        let ctx = myCanvas.getContext("2d");
+        let ratio = getPixelRatio(ctx);
+
+        myCanvas.style.width = myCanvas.width + 'px';
+        myCanvas.style.height = myCanvas.height + 'px';
+        myCanvas.width = myCanvas.width * ratio;
+        myCanvas.height = myCanvas.height * ratio;
+        ctx.scale(ratio, ratio);
+
+
+
+        ctx.font = "18px Georgia";
+
+        ctx.strokeStyle = "#999";
+        let wh = 30;
+
+        function createMap() {
+            for (let i = 0; i < 12; i++) {
+                for (let j = 0; j < 20; j++) {
+                    ctx.strokeRect(i * wh, j * wh, wh, wh);
+                }
+            }
+        }
+        createMap()
+
+
+        function createRect() {
+            ctx.fillStyle = 'blue';
+            for (let i = 0, len = 12; i < len; i++) {
+                for (let j = 0; j < 20; j++) {
+                    if (fillArr[j][i] === 1) {
+                        ctx.fillRect(i * wh, j * wh, wh, wh);
+                    }
+                }
+            }
+
+        };
+        // createRect();
+
+        var hang = 0;
+        var lie = 0;
+        let lastPoint = [];
+        function run() {
+
+            if (lastPoint.length > 0) {
+                lastPoint.forEach((item, index) => {
+                    fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+                })
+            }
+
+
+
+            // lastPoint.forEach((item, index) => {
+            //     fillArr[lastPoint[index].y][lastPoint[index].x + 1] = 1;
+
+            //     lastPoint[index].x = lastPoint[index].x + 1
+            // })
+            if (lastPoint.length > 0) {
+                lie = lastPoint[0].x;
+                // hang = lastPoint[0].y;
+                // console.log(hang)
+            }
+
+            fillArr[hang][lie] = 1;
+            fillArr[hang + 1][lie] = 1;
+            fillArr[hang][lie + 1] = 1;
+            fillArr[hang + 1][lie + 1] = 1;
+            lastPoint = [
+                { y: hang, x: lie },
+                { y: hang + 1, x: lie },
+                { y: hang, x: lie + 1 },
+                { y: hang + 1, x: lie + 1 },
+            ]
+
+
+
+
+            ctx.clearRect(0, 0, 1000, 1000);
+            createMap()
+            createRect();
+
+            function judge_stop() {
+                let last_line = 0;
+                if (lastPoint[0].y < 18) {
+                    console.log()
+                    if (1 === fillArr[lastPoint[1].y + 1][lastPoint[1].x] || 1 === fillArr[lastPoint[3].y + 1][lastPoint[3].x]) {
+                        return false
+                    }
+                    return true
+                }
+                return false
+            }
+            if (judge_stop()) {
+                // lastPoint[0].y++;
+                hang++;
+            } else {
+                // 增加图形
+                // console.log(fillArr);
+                fillArr[0][0] = 1;
+                fillArr[0][1] = 1;
+                fillArr[0][2] = 1;
+                fillArr[0][3] = 1;
+
+                //  lastPoint = [
+                //     { y: 0, x: 0 },
+                //     { y: 0, x: 1 },
+                //     { y: 0, x: 1 + 1 },
+                //     { y: 0 , x: 3 },
+                // ]
+
+            }
+            setTimeout(() => {
+
+                run()
+            }, 1000);
+        }
+
+        run()
+
+
+        document.addEventListener('keydown', function (e) {
+            console.log(e.keyCode)
+            if (e.keyCode === 87) {
+                console.log('up')
+            }
+
+            if (e.keyCode === 65) {
+                console.log('left')
+
+                if (lastPoint.length > 0) {
+                    lastPoint.forEach((item, index) => {
+                        fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+                    })
+                    lastPoint.forEach((item, index) => {
+                        fillArr[lastPoint[index].y][lastPoint[index].x - 1] = 1;
+
+                        lastPoint[index].x = lastPoint[index].x - 1
+                    })
+                    ctx.clearRect(0, 0, 1000, 1000);
+                    createMap()
+                    createRect();
+                }
+            }
+
+            if (e.keyCode === 68) {
+                console.log('right');
+
+                if (lastPoint.length > 0) {
+                    lastPoint.forEach((item, index) => {
+                        fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+                    })
+                    lastPoint.forEach((item, index) => {
+                        fillArr[lastPoint[index].y][lastPoint[index].x + 1] = 1;
+
+                        lastPoint[index].x = lastPoint[index].x + 1
+                    })
+                    ctx.clearRect(0, 0, 1000, 1000);
+                    createMap()
+                    createRect();
+                }
+            }
+            if (e.keyCode === 83) {
+                console.log('down');
+
+                lastPoint.forEach((item, index) => {
+                    fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+                })
+
+                lastPoint.forEach((item, index) => {
+                    fillArr[lastPoint[index].y + 1][lastPoint[index].x] = 1;
+                    lastPoint[index].y = lastPoint[index].y + 1
+                })
+                hang++
+                ctx.clearRect(0, 0, 1000, 1000);
+                createMap()
+                createRect();
+            }
+
+        })
+
+
+        // ctx.save();
+
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect(2 * wh, 1 * wh, wh, wh);
+        // ctx.restore()
+
+        // ctx.fillRect(3 * wh, 1 * wh, wh, wh);
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

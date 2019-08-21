@@ -1,287 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <canvas id="my_canvas" width="1000" height="1000"></canvas>
 
     <script type="text/javascript">
+      // 获取像素比
 
-        // 获取像素比
+      let getPixelRatio = function(ctx) {
+        let backingStore =
+          ctx.backingStorePixelRatio ||
+          ctx.webkitBackingStorePixelRatio ||
+          ctx.mozBackingStorePixelRatio ||
+          ctx.msBackingStorePixelRatio ||
+          ctx.oBackingStorePixelRatio ||
+          ctx.backingStorePixelRatio ||
+          1;
 
-        let getPixelRatio = function (ctx) {
+        return (window.devicePixelRatio || 1) / backingStore;
+      };
 
-            let backingStore = ctx.backingStorePixelRatio ||
+      let fillArr = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ];
 
-                ctx.webkitBackingStorePixelRatio ||
+      let fillArr2 = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ];
 
-                ctx.mozBackingStorePixelRatio ||
+      let myCanvas = document.getElementById("my_canvas");
 
-                ctx.msBackingStorePixelRatio ||
+      let ctx = myCanvas.getContext("2d");
+      let ratio = getPixelRatio(ctx);
 
-                ctx.oBackingStorePixelRatio ||
+      myCanvas.style.width = myCanvas.width + "px";
+      myCanvas.style.height = myCanvas.height + "px";
+      myCanvas.width = myCanvas.width * ratio;
+      myCanvas.height = myCanvas.height * ratio;
+      ctx.scale(ratio, ratio);  // 这个地方是兼容高清屏的？
 
-                ctx.backingStorePixelRatio || 1;
+      ctx.font = "18px Georgia";
 
-            return (window.devicePixelRatio || 1) / backingStore;
+      ctx.strokeStyle = "#999";
+      let wh = 30;
 
-        };
-
-        let fillArr = [
-            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ];
-
-        let fillArr2 = [
-            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ]
-        let myCanvas = document.getElementById("my_canvas");
-
-        let ctx = myCanvas.getContext("2d");
-        let ratio = getPixelRatio(ctx);
-
-        myCanvas.style.width = myCanvas.width + 'px';
-        myCanvas.style.height = myCanvas.height + 'px';
-        myCanvas.width = myCanvas.width * ratio;
-        myCanvas.height = myCanvas.height * ratio;
-        ctx.scale(ratio, ratio);
-
-
-
-        ctx.font = "18px Georgia";
-
-        ctx.strokeStyle = "#999";
-        let wh = 30;
-
-        function createMap() {
-            for (let i = 0; i < 12; i++) {
-                for (let j = 0; j < 20; j++) {
-                    ctx.strokeRect(i * wh, j * wh, wh, wh);
-                }
-            }
+      /** 绘制画板 */
+      function createMap() {
+        for (let i = 0; i < 12; i++) {
+          for (let j = 0; j < 20; j++) {
+            ctx.strokeRect(i * wh, j * wh, wh, wh);
+          }
         }
-        createMap()
+      }
+      createMap();
+      let blockArr = [
+        [4, 0, 4, 1, 5, 1, 6, 1],
+        [4, 1, 5, 1, 6, 1, 6, 0],
+        [4, 0, 5, 0, 5, 1, 6, 1],
+        [4, 1, 5, 0, 5, 1, 6, 0],
+        [5, 0, 4, 1, 5, 1, 6, 1],
+        [4, 0, 5, 0, 6, 0, 7, 0],
+        [5, 0, 6, 0, 5, 1, 6, 1]
+      ];
+      let nowRect = blockArr[Math.floor(Math.random() * blockArr.length)];
 
-
-        function createRect() {
-            ctx.fillStyle = 'blue';
-            for (let i = 0, len = 12; i < len; i++) {
-                for (let j = 0; j < 20; j++) {
-                    if (fillArr[j][i] === 1) {
-                        ctx.fillRect(i * wh, j * wh, wh, wh);
-                    }
-                }
-            }
-
-        };
-        // createRect();
-
-        var hang = 0;
-        var lie = 0;
-        let lastPoint = [];
-        function run() {
-
-            if (lastPoint.length > 0) {
-                lastPoint.forEach((item, index) => {
-                    fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
-                })
-            }
-
-
-
-            // lastPoint.forEach((item, index) => {
-            //     fillArr[lastPoint[index].y][lastPoint[index].x + 1] = 1;
-
-            //     lastPoint[index].x = lastPoint[index].x + 1
-            // })
-            if (lastPoint.length > 0) {
-                lie = lastPoint[0].x;
-                // hang = lastPoint[0].y;
-                // console.log(hang)
-            }
-
-            fillArr[hang][lie] = 1;
-            fillArr[hang + 1][lie] = 1;
-            fillArr[hang][lie + 1] = 1;
-            fillArr[hang + 1][lie + 1] = 1;
-            lastPoint = [
-                { y: hang, x: lie },
-                { y: hang + 1, x: lie },
-                { y: hang, x: lie + 1 },
-                { y: hang + 1, x: lie + 1 },
-            ]
+      /** 随机图形类 */
+      class shape {
+        constructor(nowRect) {
+          this.nowRect = nowRect;
+        }
+        createRect(down = 0, lr = 0) {
+          let nowRect = this.nowRect;
+          let wh = 30;
+          let lastPoint = [];
+          ctx.fillStyle = "hsla(200,100%,50%,.5)";
+          for (let i = 0, len = nowRect.length; i < len; i += 2) {
+            ctx.fillRect(
+              (nowRect[i] + lr) * wh,
+              (nowRect[i + 1] + down) * wh,
+              wh,
+              wh
+            );
+            lastPoint.push(nowRect[i] + lr, nowRect[i + 1] + down);
+          }
+          return lastPoint;
+        }
+      }
 
 
 
-
-            ctx.clearRect(0, 0, 1000, 1000);
-            createMap()
-            createRect();
-
-            function judge_stop() {
-                let last_line = 0;
-                if (lastPoint[0].y < 18) {
-                    console.log()
-                    if (1 === fillArr[lastPoint[1].y + 1][lastPoint[1].x] || 1 === fillArr[lastPoint[3].y + 1][lastPoint[3].x]) {
-                        return false
-                    }
-                    return true
-                }
+      var hang = 0;
+      var lie = 0;
+      let lastPoint = [];
+      function judge_stop(lastPoint) {
+        for(let i = 0; i < lastPoint.length; i++){
+            if(lastPoint[i] >= 19){
                 return false
             }
-            if (judge_stop()) {
-                // lastPoint[0].y++;
-                hang++;
-            } else {
-                // 增加图形
-                // console.log(fillArr);
-                fillArr[0][0] = 1;
-                fillArr[0][1] = 1;
-                fillArr[0][2] = 1;
-                fillArr[0][3] = 1;
+            
+        }
+        return true
+      }
+      function run() {
+        ctx.clearRect(0, 0, 1000, 1000);
+        createMap();
+        // createRect(hang);
+        lastPoint = new shape(nowRect).createRect(hang);
+        // console.log(lastPoint);
+        // hang++;
+        if (judge_stop(lastPoint)) {
+          // lastPoint[0].y++;
+          hang++;
+        } else {
+          // 增加图形
+          // console.log(fillArr);
+          // fillArr[0][0] = 1;
+          // fillArr[0][1] = 1;
+          // fillArr[0][2] = 1;
+          // fillArr[0][3] = 1;
+          //  lastPoint = [
+          //     { y: 0, x: 0 },
+          //     { y: 0, x: 1 },
+          //     { y: 0, x: 1 + 1 },
+          //     { y: 0 , x: 3 },
+          // ]
+        }
+        setTimeout(() => {
+          run();
+        }, 1000);
+      }
 
-                //  lastPoint = [
-                //     { y: 0, x: 0 },
-                //     { y: 0, x: 1 },
-                //     { y: 0, x: 1 + 1 },
-                //     { y: 0 , x: 3 },
-                // ]
+      run();
 
-            }
-            setTimeout(() => {
-
-                run()
-            }, 1000);
+      document.addEventListener("keydown", function(e) {
+        // console.log(e.keyCode);
+        console.log(lastPoint);
+        lastPoint.forEach((item, index) => {
+          if (index % 2 === 0) {
+            item = item + 1;
+          }
+          run();
+        })
+        if (e.keyCode === 87) {
+          console.log("up");
         }
 
-        run()
+        if (e.keyCode === 65) {
+          console.log("left");
 
+          // if (lastPoint.length > 0) {
+          //   lastPoint.forEach((item, index) => {
+          //     fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+          //   });
+          //   lastPoint.forEach((item, index) => {
+          //     fillArr[lastPoint[index].y][lastPoint[index].x - 1] = 1;
 
-        document.addEventListener('keydown', function (e) {
-            console.log(e.keyCode)
-            if (e.keyCode === 87) {
-                console.log('up')
-            }
+          //     lastPoint[index].x = lastPoint[index].x - 1;
+          //   });
+          //   ctx.clearRect(0, 0, 1000, 1000);
+          //   createMap();
+          //   createRect();
+          // }
+        }
 
-            if (e.keyCode === 65) {
-                console.log('left')
+        if (e.keyCode === 68) {
+          console.log("right");
 
-                if (lastPoint.length > 0) {
-                    lastPoint.forEach((item, index) => {
-                        fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
-                    })
-                    lastPoint.forEach((item, index) => {
-                        fillArr[lastPoint[index].y][lastPoint[index].x - 1] = 1;
+          if (lastPoint.length > 0) {
+            lastPoint.forEach((item, index) => {
+              fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+            });
+            lastPoint.forEach((item, index) => {
+              fillArr[lastPoint[index].y][lastPoint[index].x + 1] = 1;
 
-                        lastPoint[index].x = lastPoint[index].x - 1
-                    })
-                    ctx.clearRect(0, 0, 1000, 1000);
-                    createMap()
-                    createRect();
-                }
-            }
+              lastPoint[index].x = lastPoint[index].x + 1;
+            });
+            ctx.clearRect(0, 0, 1000, 1000);
+            createMap();
+            createRect();
+          }
+        }
+        if (e.keyCode === 83) {
+          console.log("down");
 
-            if (e.keyCode === 68) {
-                console.log('right');
+          lastPoint.forEach((item, index) => {
+            fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
+          });
 
-                if (lastPoint.length > 0) {
-                    lastPoint.forEach((item, index) => {
-                        fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
-                    })
-                    lastPoint.forEach((item, index) => {
-                        fillArr[lastPoint[index].y][lastPoint[index].x + 1] = 1;
+          lastPoint.forEach((item, index) => {
+            fillArr[lastPoint[index].y + 1][lastPoint[index].x] = 1;
+            lastPoint[index].y = lastPoint[index].y + 1;
+          });
+          hang++;
+          ctx.clearRect(0, 0, 1000, 1000);
+          createMap();
+          createRect();
+        }
+      });
 
-                        lastPoint[index].x = lastPoint[index].x + 1
-                    })
-                    ctx.clearRect(0, 0, 1000, 1000);
-                    createMap()
-                    createRect();
-                }
-            }
-            if (e.keyCode === 83) {
-                console.log('down');
+      // ctx.save();
 
-                lastPoint.forEach((item, index) => {
-                    fillArr[lastPoint[index].y][lastPoint[index].x] = 0;
-                })
+      // ctx.fillStyle = 'red';
+      // ctx.fillRect(2 * wh, 1 * wh, wh, wh);
+      // ctx.restore()
 
-                lastPoint.forEach((item, index) => {
-                    fillArr[lastPoint[index].y + 1][lastPoint[index].x] = 1;
-                    lastPoint[index].y = lastPoint[index].y + 1
-                })
-                hang++
-                ctx.clearRect(0, 0, 1000, 1000);
-                createMap()
-                createRect();
-            }
-
-        })
-
-
-        // ctx.save();
-
-        // ctx.fillStyle = 'red';
-        // ctx.fillRect(2 * wh, 1 * wh, wh, wh);
-        // ctx.restore()
-
-        // ctx.fillRect(3 * wh, 1 * wh, wh, wh);
-
-
-
-
-
-
-
+      // ctx.fillRect(3 * wh, 1 * wh, wh, wh);
     </script>
-</body>
-
+  </body>
 </html>

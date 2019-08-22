@@ -1,5 +1,5 @@
-const path = require('path')
-const HtmlWepackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const HtmlWepackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -24,4 +24,4 @@ module.exports = {
         open: false,
         port: 9000
     }
-}
+};

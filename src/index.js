@@ -4,7 +4,7 @@ class People {
         this.age = age;
     }
     eat() {
-        // alert(`${this.name} eat something`);
+        alert(`${this.name} eat something`);
     }
     speak() {
         // alert(`My name is ${this.name}, age ${this.age}`);
